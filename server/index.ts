@@ -1,6 +1,7 @@
 import next from "next";
 import Hapi from "@hapi/hapi";
 import { nextHandlerWrapper } from "./next-wrapper";
+import { helloRoutes } from "./routes/hello";
 
 const port = parseInt(process.env.PORT as string, 10) || 4000;
 const dev = process.env.NODE_ENV !== "production";
@@ -16,10 +17,20 @@ app.prepare().then(async () => {
     handler: nextHandlerWrapper(app),
   });
 
+  server.route(helloRoutes);
+
   server.route({
     method: "*",
     path: "/{p*}" /* catch all route */,
     handler: nextHandlerWrapper(app),
+  });
+
+  server.route({
+    method: "GET",
+    path: "/sample",
+    handler: (request, h) => {
+      return { value: "Hello World ! sample" };
+    },
   });
 
   try {
