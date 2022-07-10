@@ -5,6 +5,18 @@ import {
   ServerRoute,
 } from "@hapi/hapi";
 
+export const sendJson = async (request: Request, h: ResponseToolkit) => {
+  var data = {
+    key: "value",
+    another: false,
+    number: 10,
+    func: function () {
+      return this.number * 10;
+    },
+  };
+  return data;
+};
+
 const sayHello = async (
   request: Request,
   h: ResponseToolkit
